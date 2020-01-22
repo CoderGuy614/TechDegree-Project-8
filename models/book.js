@@ -1,13 +1,40 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
-  const Book = sequelize.define('Book', {
-    title: DataTypes.STRING,
-    author: DataTypes.STRING,
-    genre: DataTypes.STRING,
-    date: DataTypes.INTEGER
-  }, {});
-  Book.associate = function(models) {
-    // associations can be defined here
-  };
+
+const Sequelize = require('sequelize');
+
+module.exports = (sequelize) => {
+  class Book extends Sequelize.Model {}
+  Book.init({ 
+
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false, 
+        validate: {
+            notNull: {
+                msg: 'Title must not be blank',
+            },
+            notEmpty: {
+                msg: 'Invalid title'         
+            }      
+        },
+    },
+
+    author: {  
+        type: Sequelize.STRING,
+        allowNull: false, 
+        validate: {
+          notNull: {
+              msg: 'Author must not be blank',
+          },
+          notEmpty: { 
+              msg: 'Invalid author'
+          }      
+        },
+    },
+    genre: Sequelize.STRING,
+    year: Sequelize.INTEGER
+    
+    }, { sequelize });
+
   return Book;
 };
