@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const Book = require('../models').Book;
 
-/* Handler function to wrap each route. */
+/* Handler function */
 function asyncHandler(cb){
   return async(req, res, next) => {
     try {
@@ -14,14 +14,14 @@ function asyncHandler(cb){
 }
 
 
-/* GET book listings. */
+/* GET book all books */
 router.get('/', asyncHandler(async (req, res) => {
 
   const books = await Book.findAll({ // retrieve all of the books in the database
         order: [[ 'title', 'ASC' ]]  // order the books by title
   } );
 
-  res.render("index", { books } ); //render the books list via the index view by passing the books local
+  res.render("index", { books } ); // render the list of books
 
 }));
 
@@ -31,18 +31,18 @@ router.get('/new', (req, res) => {
 });
 
 /* POST create book */
-router.post('/', asyncHandler(async (req, res) => {
-  // create a new book
+router.post('/new', asyncHandler(async (req, res) => {
+  console.log(req.body);
   let book;
   try {
-    book = await Book.create(req.body);  // pass request body to the create method
-    res.redirect("/books/" + book.id);   // redirect to the books/id path after created
+    book = await Book.create(req.body);  
+    res.redirect("/books/" + book.id);  
   } catch (error) {
-    if(error.name === "SequelizeValidationError") { // check for the SequelizeValidationError error
+    if(error.name === "SequelizeValidationError") { 
       book = await Book.build(req.body);
-      res.render("books/form-error", { book, errors: error.errors})
+      res.render("books/error", { book, errors: error.errors})
     } else {
-      throw error; // throw error to asyncHandler's catch block
+      throw error; 
     }
   }
 
