@@ -27,28 +27,24 @@ router.get('/', asyncHandler(async (req, res) => {
 
 /* Create a new book form. */
 router.get('/new', (req, res) => {
-  res.render("new", { book: {} });
+  res.render("new-book", { book: {} });
 });
 
 /* POST create book */
 router.post('/new', asyncHandler(async (req, res) => {
-  console.log(req.body);
   let book;
   try {
-    book = await Book.create(req.body);  
-    res.redirect("/books/" + book.id);  
+    book = await Book.create(req.body);
+    res.redirect("/books/" + book.id);
   } catch (error) {
-    if(error.name === "SequelizeValidationError") { 
+    if(error.name === "SequelizeValidationError") { // checking the error
       book = await Book.build(req.body);
-      res.render("books/error", { book, errors: error.errors})
+      res.render("books/new", { book, errors: error.errors, title: "New book" })
     } else {
-      throw error; 
-    }
+      throw error; // error caught in the asyncHandler's catch block
+    }  
   }
-
 }));
-
-
 
 
 
