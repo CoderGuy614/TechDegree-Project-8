@@ -37,8 +37,8 @@ router.get("/:id", asyncHandler(async (req, res) => {
 
 
 /* Create a new book form. */
-router.get('/new', (req, res) => {
-  res.render("new-book", { book: {} });
+router.get('/books/new', (req, res) => {
+  res.render('new-book', { book: {} });
 });
 
 /* POST create book */
