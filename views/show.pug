@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= book.title
+  h3= "Author: " + book.author
+  h3= "Genre: " + book.genre
+  h3= "Year Published: " + book.year
+
+  
+  
+  a(href="/books") &larr; Back 
+  | | 
+  a(href="/books/" + book.id + "/update-book") Edit book 
+  | | 
+  a(href="/books/" + book.id + "/delete") Delete book
