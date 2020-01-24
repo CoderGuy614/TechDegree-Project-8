@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
                 msg: 'Title must not be blank',
             },
             notEmpty: {
-                msg: 'Invalid title'         
+                msg: 'Title must not be blank'         
             }      
         },
     },
@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
               msg: 'Author must not be blank',
           },
           notEmpty: { 
-              msg: 'Invalid author'
+              msg: 'Author must not be blank'
           }      
         },
     },
