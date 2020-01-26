@@ -25,7 +25,13 @@ router.get('/', asyncHandler(async (req, res) => {
 
 }));
 
-/* GET individual book. */
+/* Create a new book form. */
+router.get('/new', (req, res) => {
+  res.render("new-book", { book: {} });
+});
+
+
+// /* GET individual book. */
 router.get("/:id", asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
    if(book) {
@@ -35,14 +41,8 @@ router.get("/:id", asyncHandler(async (req, res) => {
    }
 }));
 
-
-/* Create a new book form. */
-router.get('/books/new', (req, res) => {
-  res.render("new-book", { book: {} });
-});
-
 /* POST create book */
-router.post('/books/new', asyncHandler(async (req, res) => {
+router.post('/new', asyncHandler(async (req, res) => {
   let book;
   try {
     book = await Book.create(req.body);
