@@ -16,13 +16,10 @@ function asyncHandler(cb){
 
 /* GET book all books */
 router.get('/', asyncHandler(async (req, res) => {
-
   const books = await Book.findAll({ // retrieve all of the books in the database
         order: [[ 'title', 'ASC' ]]  // order the books by title
   } );
-
   res.render("index", { books } ); // render the list of books
-
 }));
 
 /* Create a new book form. */
@@ -30,14 +27,15 @@ router.get('/new', (req, res) => {
   res.render("new-book", { book: {} });
 });
 
-
 // /* GET individual book. */
-router.get("/:id", asyncHandler(async (req, res) => {
+router.get("/:id", asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
    if(book) {
     res.render("show", { book, title: book.title });
    } else{
-     res.sendStatus(404);
+    const err = new Error();
+    err.status = 400;
+    next(err);
    }
 }));
 
